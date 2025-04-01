@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.WodewenjianDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.yonghu_types as yonghuTypes
+        ,a.wodewenjian_name as wodewenjianName
+        ,a.wodewenjian_file as wodewenjianFile
+        ,a.leixing_types as leixingTypes
+        ,a.shuangchuan_time as shuangchuanTime
+        ,a.wodewenjian_content as wodewenjianContent
+        ,a.zhuangt1_types as zhuangt1Types
+        ,a.wodewenjian_time as wodewenjianTime
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.WodewenjianView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Wodewenjian  a
+        <where>
+            <if test=" params.yonghuTypes != '' and params.yonghuTypes != null">
+                and a.yonghu_types = #{params.yonghuTypes}
+            </if>
+            <if test=" params.wodewenjianName != '' and params.wodewenjianName != null and params.wodewenjianName != 'null' ">
+                and a.wodewenjian_name like CONCAT('%',#{params.wodewenjianName},'%')
+            </if>
+            <if test=" params.leixingTypes != '' and params.leixingTypes != null and params.leixingTypes != 'null' ">
+                and a.leixing_types = #{params.leixingTypes}
+            </if>
+            <if test=" params.shuangchuanTimeStart != '' and params.shuangchuanTimeStart != null and params.shuangchuanTimeStart != 'null' ">
+                and a.shuangchuan_time &gt;= {params.shuangchuanTimeStart}
+            </if>
+            <if test=" params.shuangchuanTimeEnd != '' and params.shuangchuanTimeEnd != null and params.shuangchuanTimeEnd != 'null' ">
+                and a.shuangchuan_time &lt;= {params.shuangchuanTimeEnd}
+            </if>
+            <if test=" params.wodewenjianContent != '' and params.wodewenjianContent != null and params.wodewenjianContent != 'null' ">
+                and a.wodewenjian_content like CONCAT('%',#{params.wodewenjianContent},'%')
+            </if>
+            <if test=" params.zhuangt1Types != '' and params.zhuangt1Types != null and params.zhuangt1Types != 'null' ">
+                and a.zhuangt1_types = #{params.zhuangt1Types}
+            </if>
+            <if test=" params.wodewenjianTimeStart != '' and params.wodewenjianTimeStart != null and params.wodewenjianTimeStart != 'null' ">
+                and a.wodewenjian_time &gt;= {params.wodewenjianTimeStart}
+            </if>
+            <if test=" params.wodewenjianTimeEnd != '' and params.wodewenjianTimeEnd != null and params.wodewenjianTimeEnd != 'null' ">
+                and a.wodewenjian_time &lt;= {params.wodewenjianTimeEnd}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>
